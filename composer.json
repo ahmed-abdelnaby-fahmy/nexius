@@ -1,0 +1,33 @@
+{
+  "name": "nexius/nexius",
+  "description": "NexiUS Next-Level Effortless Integration for Unified Systems\" - Signifies a new level of simplicity and unity in systems integration.",
+  "type": "project",
+  "autoload": {
+    "psr-4": {
+      "Nexius\\": "src/"
+    },
+    "classmap": [
+    ],
+    "files": [
+      "src/helpers/app.php"
+    ]
+  },
+  "authors": [
+    {
+      "name": "ahmed abdelnaby",
+      "email": "ahmedabdelnabyfahmy1@gmail.com"
+    }
+  ],
+  "require": {
+    "php": "^8.0",
+    "mongodb/mongodb": "^1.16",
+    "ext-mongodb": "*",
+    "symfony/console": "^6.3",
+    "ext-json": "*",
+    "peppeocchi/php-cron-scheduler": "^4.0",
+    "guzzlehttp/guzzle": "^7.8",
+    "symfony/http-foundation": "^6.3",
+    "predis/predis": "^2.2",
+    "symfony/stopwatch": "^6.4"
+  }
+}

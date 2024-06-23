@@ -1,7 +1,8 @@
 {
   "name": "nexius/nexius",
   "description": "NexiUS Next-Level Effortless Integration for Unified Systems\" - Signifies a new level of simplicity and unity in systems integration.",
-  "type": "project",
+  "type": "library",
+  "version": "1.0",
   "autoload": {
     "psr-4": {
       "Nexius\\": "src/"

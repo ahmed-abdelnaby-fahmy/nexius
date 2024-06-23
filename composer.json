@@ -31,5 +31,6 @@
     "predis/predis": "^2.2",
     "symfony/stopwatch": "^6.4"
   },
-  "license": "MIT"
+  "license": "MIT",
+  "minimum-stability": "stable"
 }

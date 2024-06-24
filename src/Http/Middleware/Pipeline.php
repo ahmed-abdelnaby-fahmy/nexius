@@ -5,19 +5,18 @@ namespace Nexius\Http\Middleware;
 use Nexius\Http\Request;
 use Closure;
 use Nexius\Http\Response;
+use Nexius\Routing\Route;
 
 class Pipeline
 {
     protected $middleware = [];
     protected $action;
-    protected $request;
     protected $parameters = [];
 
-    public function __construct(array $middleware, $action, Request $request)
+    public function __construct(protected Route $route,protected Request $request)
     {
-        $this->middleware = $middleware;
-        $this->action = $action;
-        $this->request = $request;
+        $this->middleware = $route->middleware;
+        $this->action = $route->action;
     }
 
     /**
@@ -65,7 +64,7 @@ class Pipeline
             $method = $action[1];
 
             // Merge request and route parameters
-            return $controller->$method($request, ...array_values($this->parameters));
+            return $controller->$method(...$this->parameters);
         };
     }
 }

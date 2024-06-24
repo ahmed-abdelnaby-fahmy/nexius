@@ -13,8 +13,8 @@ class Route
     protected $uri;
     protected $methods;
     protected $name;
-    protected $action;
-    protected $middleware = [];
+    public $action;
+    public $middleware = [];
     protected $parameters = [];
 
     public function __construct(array $methods, string $uri, $action)
@@ -45,7 +45,7 @@ class Route
         }
 
         // Assuming middleware handling is done in the Pipeline
-        $pipeline = new Pipeline($this->middleware, $this->action, $request);
+        $pipeline = new Pipeline($this, $request);
 
         return $pipeline->process($this->parameters);
     }
@@ -61,12 +61,21 @@ class Route
 
         $routePattern = preg_replace('/\{([a-zA-Z0-9_]+)\}/', '([^/]+)', $routeUri);
         $routePattern = str_replace('/', '\/', $routePattern);
+        $reflection = new \ReflectionMethod($this->action[0],$this->action[1]);
+        $params = $reflection->getParameters();
 
         if (preg_match('/^' . $routePattern . '$/', $pathInfo, $matches)) {
             array_shift($matches); // Remove full match
             $parameterNames = [];
             if (preg_match_all('/\{([a-zA-Z0-9_]+)\}/', $routeUri, $parameterNames)) {
                 $this->parameters = array_combine($parameterNames[1], $matches);
+            }
+            foreach ($params as $param) {
+                $type = $param->getType();
+                if ($type && $type->getName() === Request::class) {
+                    $this->parameters[$param->getName()] = \request();
+                }elseif (!array_key_exists($param->getName(), $this->parameters))
+                    throw new \Exception("Route parameters do not match expected parameters.");
             }
             return true;
         }
